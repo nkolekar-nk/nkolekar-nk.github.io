@@ -12,6 +12,7 @@
   --accent-strong: #123a5d;
   --accent-soft: #dfeef2;
   --gold: #c9a15f;
+  --peach: #f4d8c6;
   --radius-xl: 28px;
   --radius-lg: 20px;
   --radius-md: 14px;
@@ -27,6 +28,7 @@ html {
 }
 
 body {
+  position: relative;
   margin: 0;
   font-family: Inter, "Segoe UI", Arial, sans-serif;
   background:
@@ -35,6 +37,41 @@ body {
     var(--bg);
   color: var(--text);
   line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(30px);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+body::before {
+  width: 22rem;
+  height: 22rem;
+  background: rgba(117, 171, 197, 0.18);
+  top: 6rem;
+  right: -4rem;
+  animation: drift 12s ease-in-out infinite alternate;
+}
+
+body::after {
+  width: 18rem;
+  height: 18rem;
+  background: rgba(201, 161, 95, 0.14);
+  bottom: 1rem;
+  left: -4rem;
+  animation: drift 15s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(30px, -25px, 0) scale(1.06); }
 }
 
 img {
@@ -113,16 +150,18 @@ h3 {
   border-radius: 999px;
   padding: 0.9rem 1.3rem;
   font-weight: 600;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  letter-spacing: -0.02em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
 .button:hover,
 .button:focus-visible {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(18, 58, 93, 0.12);
 }
 
 .button-primary {
-  background: var(--accent-strong);
+  background: linear-gradient(135deg, var(--accent-strong), var(--accent));
   color: #fff;
   box-shadow: var(--shadow-soft);
 }
@@ -216,8 +255,9 @@ h3 {
   padding: 1.2rem;
   border: 1px solid rgba(19, 29, 40, 0.08);
   border-radius: var(--radius-xl);
-  background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(209, 229, 238, 0.7));
+  background: linear-gradient(135deg, rgba(255,255,255,0.82), rgba(209, 229, 238, 0.72));
   box-shadow: var(--shadow);
+  transform: rotate(-1.2deg);
 }
 
 .avatar-badge {
@@ -232,6 +272,7 @@ h3 {
   font-weight: 700;
   font-size: 1.7rem;
   letter-spacing: -0.06em;
+  box-shadow: 0 16px 34px rgba(18, 58, 93, 0.18);
 }
 
 .profile-meta {
@@ -267,6 +308,7 @@ h3 {
   background: rgba(255,255,255,0.85);
   box-shadow: var(--shadow-soft);
   font-size: 0.88rem;
+  backdrop-filter: blur(12px);
 }
 
 .dot {
@@ -275,6 +317,50 @@ h3 {
   border-radius: 50%;
   background: #57b77e;
   box-shadow: 0 0 0 5px rgba(87, 183, 126, 0.14);
+}
+
+.impact-band {
+  padding-top: 0.5rem;
+  padding-bottom: 1.25rem;
+}
+
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.impact-card {
+  padding: 1.4rem 1.2rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255,255,255,0.56), rgba(255,255,255,0.28));
+  box-shadow: var(--shadow-soft);
+}
+
+.impact-kicker {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.impact-card strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: var(--accent-strong);
+}
+
+.impact-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
 }
 
 .section-block {
@@ -312,6 +398,16 @@ h3 {
   border-radius: var(--radius-lg);
   background: rgba(255,255,255,0.45);
   box-shadow: var(--shadow-soft);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.focus-card:hover,
+.skill-card:hover,
+.project-card:hover,
+.timeline-content:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 38px rgba(24, 31, 39, 0.08);
+  border-color: rgba(18, 58, 93, 0.18);
 }
 
 .focus-card {
@@ -398,6 +494,7 @@ h3 {
 
 .project-card {
   padding: 1.4rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(243, 241, 234, 0.9));
 }
 
 .tag {
@@ -498,7 +595,7 @@ h3 {
   .about-grid,
   .project-grid,
   .skill-groups,
-  .cert-list {
+  .impact-grid {
     grid-template-columns: 1fr;
   }
 
